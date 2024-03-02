@@ -35,7 +35,26 @@ todoList.addEventListener('click', function(event) {
 
         // Llama a la función para ocultar la sección main y el footer
     }
+    ocultarMainYFooter()
 });
+
+
+// Evento de edición para el input
+todoList.addEventListener('keydown', function (event) {
+    // Verificar si la tecla presionada es Enter y si la tarea está en modo de edición
+    if (event.key === 'Enter' && event.target.classList.contains('edit')) {
+        // Obtener el elemento padre li de la tarea editada
+        let editedTaskItem = event.target.closest('li');
+
+        // Marcar la tarea como completada agregando la clase 'completed'
+        editedTaskItem.classList.add('view');
+
+        // Desactivar el modo de edición
+        editedTaskItem.classList.remove('editing');
+    }
+    ocultarMainYFooter()
+});
+
 
 // input agregar Task
 // Agrega un evento de escucha al input
@@ -71,6 +90,34 @@ header_input.addEventListener('keydown', function(event) {
 });
 
 
+// Agrega un evento de doble clic para la etiqueta de la tarea
+todoList.addEventListener('dblclick', function (event) {
+    if (event.target.tagName === 'LABEL') {
+        // Obtén el elemento li padre de la etiqueta
+        let taskItem = event.target.closest('li');
+
+        // Activa el modo de edición
+        taskItem.classList.add('editing');
+
+        // Obtén el elemento de edición
+        let editInput = taskItem.querySelector('.edit');
+
+        // Coloca el foco en el campo de edición
+        editInput.focus();
+    }
+});
+
+
+// Evento de clic para los checkboxes
+todoList.addEventListener('click', function (event) {
+    if (event.target.classList.contains('toggle')) {
+        // Obtén el elemento li padre del checkbox
+        let taskItem = event.target.closest('li');
+
+        // Cambia la clase 'completed' del elemento li
+        taskItem.classList.toggle('completed');
+    }
+});
 
 
 // funciones para ocultar
@@ -87,6 +134,3 @@ function ocultarMainYFooter() {
         hero_footer.style.display = 'block';
     }
 }
-
-  // Llama a la función para ocultar la sección main y el footer al cargar la página
-    ocultarMainYFooter();
